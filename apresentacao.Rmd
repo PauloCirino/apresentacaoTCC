@@ -26,16 +26,16 @@ knitr::opts_chunk$set(echo = FALSE)
 ## O processo de aprendizado
 ### Porque do Aprendizado
 - Resolver Problemas difíceis para o humano
-- Aprendizado não algoritmico
-- Grande volumes de dados disponíveis
+- Aprendizado não algorítmico
+- Grande volume de dados disponíveis
 - Automatizar tarefas humanas
-- Obter performace melhor que humanos
+- Obter performasse melhor que humanos
 
 ## O processo de aprendizado
 ### Criação de novos modelos
 - Melhoria de modelos existentes
 - Especialização dos modelos
-- Novas tarafas de aprendizado
+- Novas tarefas de aprendizado
 - Novos critérios de aprendizado
 
 ## O processo de aprendizado
@@ -47,8 +47,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Objetivos do MLAT
 ### Criação de novos modelos
-- Automatizar o processo de benchamarking na criação de modelos
-- Padronizar os benchamarks
+- Automatizar o processo de benchmarking na criação de modelos
+- Padronizar os benchmarks
 - Facilitar ciclo de desenvolvimento do projetista
 
 ## Objetivos do MLAT
