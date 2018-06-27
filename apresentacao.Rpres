@@ -1,0 +1,185 @@
+Machine Learning Automated Model Comparison - MLAT
+========================================================
+author: Paulo Cirino Ribeiro Neto
+date: 28/07/2018
+autosize: true
+
+Introdução
+========================================================
+**Tópicos**
+- O processo de aprendizado
+- Objetivos do MLAT
+- Prática
+- Futuras Melhorias
+
+O processo de aprendizado
+========================================================
+**Porque do Aprendizado**
+- Resolver Problemas difíceis para o humano
+- Aprendizado não algoritmico
+- Grande volumes de dados disponíveis
+- Automatizar tarefas humanas
+- Obter performace melhor que humanos
+
+O processo de aprendizado
+========================================================
+**Criação de novos modelos**
+- Melhoria de modelos existentes
+- Especialização dos modelos
+- Novas tarafas de aprendizado
+- Novos critérios de aprendizado
+
+O processo de aprendizado
+========================================================
+**Criação de novos modelos**
+![alt text](imgs/BuildingNewMethod2.png)
+
+
+Objetivos do MLAT
+========================================================
+- Automatizar o processo de benchamarking na criação de modelos
+- Padronizar os benchamarks
+- Facilitar ciclo de desenvolvimento do projetista
+
+Objetivos do MLAT
+========================================================
+**Facilidades do Pacote**
+- Dados
+- Modelos
+- Métricas
+- Execução dos Testes
+- Testes de Hipótese
+
+Objetivos do MLAT
+========================================================
+**Entradas do Usuário**
+![alt text](imgs/UseCase.png)
+
+Prática
+========================================================
+**Pacotes Necessário**
+- nnet
+- class
+- ridge
+- e1071
+- dplyr
+- tidyr
+- scmamp
+
+========================================================
+**Pacote**
+```{r, eval = FALSE}
+install.packages("devtools")
+library('devtools')
+devtools::install_github(repo = 'PauloCirino/MLAT')
+```
+
+```{r, eval = TRU, echo = FALSE}
+library('MLAT')
+```
+
+Prática
+========================================================
+**Criando um novo modelo**
+```{r}
+MyNewAlgoFunc <- function(X_train, Y_train, X_test, k) {
+  Y_hat <- numeric()
+  for (i in 1:nrow(X_test)) {
+    x_iter <- X_test[i,]
+    distVet <- apply(X_train, 1, function(x) {
+      sum(abs(x_iter - x))
+    })
+    Y_iter_vet <- Y_train[order(distVet)] [1:k]
+    Y_iter_aux <- numeric()
+    for (j in 1:k) {
+      Y_iter_aux <- append(Y_iter_aux,
+                           rep(Y_iter_vet[j],
+                               k - j + 1))
+    }
+    unique_y <- unique(Y_iter_aux)
+    aux_Table <- tabulate(match(Y_iter_aux,  unique_y))
+    Y_hat[i] <- unique_y[which.max(aux_Table)]
+  }
+  Y_hat
+}
+```
+
+Prática
+========================================================
+**Criando um novo modelo**
+```{r}
+newAlgoInStandarts <- MLAT::CreateAlgo( algoName = 'KNN Mahalanobis Ponderado',
+                                        algoFun = MyNewAlgoFunc,
+                                        task = 'MultClass',
+                                        paramList = list(k = 2:10) )
+```
+
+Prática
+========================================================
+**Modelos do Pacote**
+```{r}
+algoList <- MLAT::GetAllMultClassAlgo()
+sapply(algoList, function(x){x[['algoName']]})
+names(algoList[[1]])
+```
+
+Prática
+========================================================
+**Um modelo já implementado**
+```{r}
+algoList[[1]][['algoFun']]
+```
+
+Prática
+========================================================
+**Um modelo já implementado**
+```{r}
+algoList[[1]][['task']]
+algoList[[1]][['paramList']]
+```
+
+Prática
+========================================================
+**Dados**
+```{r}
+MLAT::GetDataSetsNames(task = 'MultClass')
+```
+
+Prática
+========================================================
+**Métricas**
+```{r}
+MLAT::GetMetrics(task = 'MultClass')
+```
+
+Prática
+========================================================
+**Execução dos Testes**
+```{r, eval = FALSE}
+algoList[[length(algoList) + 1]] <- newAlgoInStandarts
+resultTable <- MLAT::RunTests(cmpTestsFuncsList = algoList,
+                              task = 'MultClass', 
+                              dataSetNames = MLAT::GetDataSetsNames(task = 'MultClass'), 
+                              metrics = MLAT::GetMetrics(task = 'MultClass'), 
+                              nTestsPerParam = 10, 
+                              splitPerc = 0.7, 
+                              verbose = TRUE)
+```
+
+```{r, eval = TRUE, echo = FALSE, include = TRUE}
+MLAT::RunTests(cmpTestsFuncsList = list(algoList[[1]], algoList[[2]]),
+               task = 'MultClass', 
+               dataSetNames = MLAT::GetDataSetsNames(task = 'MultClass')[1], 
+               metrics = MLAT::GetMetrics(task = 'MultClass'), 
+               nTestsPerParam = 5, 
+               splitPerc = 0.7, 
+               verbose = TRUE)
+```
+
+Prática
+========================================================
+**Testes de Hipótese**
+```{r}
+
+```
+

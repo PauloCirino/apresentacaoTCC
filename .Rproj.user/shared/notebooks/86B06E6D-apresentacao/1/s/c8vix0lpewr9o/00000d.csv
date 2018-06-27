@@ -1,0 +1,7 @@
+"0","hypotessesTestResult <- MLAT::HypotessesTest("
+"0","  resultTable = resultTable,"
+"0","  testingMetric = 'F1 Macro',"
+"0","  method = 'friedman',"
+"0","  reductionMethod = 'mean',"
+"0","  reductionOrder = 'max',"
+"0","  alpha = 0.05)"
